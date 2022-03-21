@@ -18,6 +18,9 @@ int Process::getArrivalTime() const {
 int Process::getBurstTime() const {
     return burst_time;
 }
+void Process::setBurstTime(int time){
+    this->burst_time -= time;
+}
 
 int Process::getPriority() const {
     return priority;

@@ -8,9 +8,11 @@ using namespace std;
 void getData(vector<Process> &my_process, bool userInput);
 
 void HW_1::FCFS(bool userInput) {
-    cout<<"------------FCFS------------------\n"<<endl;
 
-//  [ process1 , process2 .... process100 ... ] process = [pid,arrival time , burst time , priority = 0 ]
+    cout << "------------FCFS------------------\n" << endl;
+
+//  [ process1 , process2 .... process100 ... ] process = [pid, arrival time , burst time , priority = 0 ]
+
     vector<Process> my_process;
     getData(my_process, userInput);
 
@@ -32,18 +34,18 @@ void HW_1::FCFS(bool userInput) {
         int a_time = it.getArrivalTime();
         cout << " [  pid " << pid << " arrival time = " << a_time << ", burst time = " << b_time << " ]" << endl;
 
-        cout << count ++ << "# : " << "[" << time << "]-[" << time + b_time << "] ";
+        cout << count++ << "# : " << "[" << time << "]-[" << time + b_time << "] ";
         int w_time = max(0, time - a_time);
         cout << "waiting time = " << w_time << endl;
         time += b_time;
         total_waiting_time += w_time;
         cout << endl;
     }
-    cout << "---------average time FCFS = " << float(total_waiting_time) / size << "----------\n"<<endl;
+    cout << "---------average time FCFS = " << float(total_waiting_time) / size << "----------\n" << endl;
 }
 
 void HW_1::SJF(bool userInput) {
-    cout<<"------------Sjf------------------\n"<<endl;
+    cout << "------------Sjf------------------\n" << endl;
 
     vector<Process> ready_list;
     getData(ready_list, userInput);
@@ -68,7 +70,8 @@ void HW_1::SJF(bool userInput) {
                 time += it->getBurstTime();
                 total_waiting_time += temp_w_time;
                 ready_list.erase(--it);
-                cout << count++ <<" [ pid " << it->getPid() << " arrival time " << it->getArrivalTime() << " burst time = "
+                cout << count++ << " [ pid " << it->getPid() << " arrival time " << it->getArrivalTime()
+                     << " burst time = "
                      << it->getBurstTime() << " ] " << endl;
                 cout << "[" << time - it->getBurstTime() << "] - [" << time << "]" << " waiting time = " << temp_w_time
                      << endl << endl;
@@ -76,10 +79,34 @@ void HW_1::SJF(bool userInput) {
             }
         }
     }
-    cout<<"-------average waiting time SJF  = " <<float(total_waiting_time) / size<<"-----\n"<<endl<<endl;
+    cout << "-------average waiting time SJF  = " << float(total_waiting_time) / size << "-----\n" << endl << endl;
 
 
 }
+
+void HW_1::SRTF(bool userInput) {
+
+    cout << "--------------SRTF------------------------\n" << endl;
+// more aficiant to implement with heap ..
+    vector<Process> ready_lst;
+    getData(ready_lst, userInput);
+
+
+    while (!ready_lst.empty()) {
+
+        sort(ready_lst.begin(), ready_lst.end(), [](const Process &a, const Process &b) ->
+                bool { return a.getBurstTime() < b.getBurstTime(); });
+        auto job = ready_lst.begin();
+
+        cout <<" [ pid " << job->getPid() << " arrival time " << job->getArrivalTime()
+             << " burst time = "<< job->getBurstTime() << " ] \n" << endl;
+        job->setBurstTime(1);
+        if (job->getBurstTime() == 0)
+            ready_lst.erase(job);
+    }
+
+}
+
 
 // getting tha data for fcfs and sjf
 void getData(vector<Process> &my_process, bool userInput) {
@@ -108,6 +135,7 @@ void getData(vector<Process> &my_process, bool userInput) {
     }
 
 }
+
 
 
 

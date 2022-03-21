@@ -9,8 +9,7 @@ class HW_1 {
 public:
     static void SJF(bool userInput);
     static void FCFS(bool userInput);
-
-//    static void FCFS(bool userInput);
+    static void SRTF(bool userInput);
 //    static void FCFS(bool userInput);
 
 

@@ -22,6 +22,8 @@ public:
 
     int getBurstTime() const;
 
+    void setBurstTime(int time);
+
     int getPriority() const;
 
 };
