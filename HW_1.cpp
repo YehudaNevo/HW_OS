@@ -98,11 +98,41 @@ void HW_1::SRTF(bool userInput) {
                 bool { return a.getBurstTime() < b.getBurstTime(); });
         auto job = ready_lst.begin();
 
-        cout <<" [ pid " << job->getPid() << " arrival time " << job->getArrivalTime()
-             << " burst time = "<< job->getBurstTime() << " ] \n" << endl;
+        cout << " [ pid " << job->getPid() << " arrival time " << job->getArrivalTime()
+             << " burst time = " << job->getBurstTime() << " ] \n" << endl;
         job->setBurstTime(1);
         if (job->getBurstTime() == 0)
             ready_lst.erase(job);
+    }
+
+}
+
+void HW_1::RR(bool userInput) {
+
+    vector<Process> ready_lst;
+    getData(ready_lst, userInput);
+
+    int round_time = 0;
+    for (auto process: ready_lst)
+        round_time += process.getBurstTime();
+    round_time /= int(ready_lst.size());
+
+    sort(ready_lst.begin(), ready_lst.end(), [](const Process &a, const Process &b) ->
+            bool { return a.getArrivalTime() < b.getArrivalTime(); });
+
+    while (!ready_lst.empty()) {
+
+        for (auto & job : ready_lst) {
+            cout << " [ pid " << job.getPid() << " arrival time " << job.getArrivalTime()
+                 << " burst time left  = " << job.getBurstTime() << " ] \n" << endl;
+            job.setBurstTime(round_time);
+        }
+
+        for (int i = 0 ; i < ready_lst.size(); i++)
+            if(ready_lst[i].getBurstTime() == 0)
+                ready_lst.erase(ready_lst.begin() + i);
+
+
     }
 
 }

@@ -19,7 +19,8 @@ int Process::getBurstTime() const {
     return burst_time;
 }
 void Process::setBurstTime(int time){
-    this->burst_time -= time;
+    this->burst_time = std::max(0, this->burst_time - time);
+
 }
 
 int Process::getPriority() const {
